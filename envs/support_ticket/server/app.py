@@ -74,6 +74,11 @@ class StepResponse(BaseModel):
 # Endpoints
 # ---------------------------------------------------------------------------
 
+@app.get("/")
+def root():
+    """Root endpoint for platform health checks and space probes."""
+    return {"message": "Support Ticket Resolution Environment is running.", "status": "ok"}
+
 @app.get("/health")
 def health():
     return {"status": "ok"}
