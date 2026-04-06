@@ -254,11 +254,14 @@ GRADERS: dict[str, Callable[..., float]] = {
 
 def grade(task_id: str, tickets: list[dict[str, Any]], expected: dict[str, Any],
           step: int, max_steps: int, action_history: list[dict[str, Any]] | None = None) -> float:
-    """Dispatch to the correct grader and return a score in [0.0, 1.0]."""
+    """Dispatch to the correct grader and return a score strictly in (0.0, 1.0)."""
     grader = GRADERS.get(task_id)
     if grader is None:
         raise ValueError(f"No grader registered for task_id={task_id!r}")
 
     if task_id == "task_3_complex_triage":
-        return grader(tickets, expected, step, max_steps, action_history or [])
-    return grader(tickets, expected, step, max_steps)
+        score = grader(tickets, expected, step, max_steps, action_history or [])
+    else:
+        score = grader(tickets, expected, step, max_steps)
+        
+    return min(0.9999, max(0.0001, score))
