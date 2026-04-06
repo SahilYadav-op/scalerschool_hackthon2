@@ -42,5 +42,5 @@ reward:
   range: [-0.15, 0.20]
 
 docker:
-  dockerfile: server/Dockerfile
+  dockerfile: Dockerfile
   port: 8000
