@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "support-ticket-env"
+version = "1.0.0"
+description = "Customer Support Ticket Resolution Environment for OpenEnv"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "Scaler Hackathon Participant"}
+]
+dependencies = [
+    "fastapi>=0.104.0",
+    "uvicorn>=0.24.0",
+    "pydantic>=2.5.0",
+    "httpx>=0.25.0",
+    "openai>=1.0.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/meta-pytorch/openenv"

@@ -27,7 +27,7 @@ try:
 except ImportError:
     OpenAI = None
 
-API_BASE_URL = os.getenv("API_BASE_URL", "http://localhost:8000")
+API_BASE_URL = os.getenv("API_BASE_URL", "http://localhost:7860")
 MODEL_NAME = os.getenv("MODEL_NAME", "gpt-4o-mini")
 HF_TOKEN = os.getenv("HF_TOKEN", "")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")

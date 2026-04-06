@@ -17,9 +17,9 @@ COPY --chown=user . .
 # Set PYTHONPATH to /app so 'import models' and 'import server.X' work
 ENV PYTHONPATH=/app
 
-# Expose port 8000 for consistency with openenv.yaml
-EXPOSE 8000
+# Hugging Face Spaces default to port 7860
+EXPOSE 7860
 
 # Start the FastAPI server using the specified port
-# Start the FastAPI server on port 8000
-CMD ["uvicorn", "server.app:app", "--host", "0.0.0.0", "--port", "8000"]
+# Start the FastAPI server on port 7860
+CMD ["uvicorn", "server.app:app", "--host", "0.0.0.0", "--port", "7860"]

@@ -43,4 +43,4 @@ reward:
 
 docker:
   dockerfile: Dockerfile
-  port: 8000
+  port: 7860
