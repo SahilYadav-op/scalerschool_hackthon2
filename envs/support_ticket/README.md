@@ -1,3 +1,13 @@
+---
+title: Support Ticket Resolution Environment
+emoji: 🎫
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # Support Ticket Resolution Environment
 
 A production-grade OpenEnv environment that simulates a **customer support ticket resolution system**. An AI agent manages a queue of incoming support tickets — classifying, prioritising, responding to, escalating, merging duplicates, and closing them efficiently.
