@@ -67,7 +67,8 @@ def grade_task_1(tickets: list[dict[str, Any]], expected: dict[str, Any],
     efficiency_score = efficiency_ratio * 0.15
 
     total = class_score + prior_score + coverage_score + efficiency_score
-    return round(min(0.9999, max(0.0001, total)), 4)
+    # Linearly transform the final sum to guarantee output is strictly in (0, 1)
+    return round((total * 0.98) + 0.01, 4)
 
 
 # ---------------------------------------------------------------------------
@@ -140,7 +141,8 @@ def grade_task_2(tickets: list[dict[str, Any]], expected: dict[str, Any],
     efficiency_score = efficiency_ratio * 0.15
 
     total = class_score + prior_score + response_score + esc_score + close_score + efficiency_score
-    return round(min(0.9999, max(0.0001, total)), 4)
+    # Linearly transform the final sum to guarantee output is strictly in (0, 1)
+    return round((total * 0.98) + 0.01, 4)
 
 
 # ---------------------------------------------------------------------------
@@ -238,7 +240,8 @@ def grade_task_3(tickets: list[dict[str, Any]], expected: dict[str, Any],
     redundancy_score = 0.10 - redundant_penalty
 
     total = class_score + prior_score + merge_score + esc_score + response_score + efficiency_score + redundancy_score
-    return round(min(0.9999, max(0.0001, total)), 4)
+    # Linearly transform the final sum to guarantee output is strictly in (0, 1)
+    return round((total * 0.98) + 0.01, 4)
 
 
 # ---------------------------------------------------------------------------
@@ -264,4 +267,4 @@ def grade(task_id: str, tickets: list[dict[str, Any]], expected: dict[str, Any],
     else:
         score = grader(tickets, expected, step, max_steps)
         
-    return min(0.9999, max(0.0001, score))
+    return score
