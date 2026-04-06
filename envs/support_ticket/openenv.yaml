@@ -1,0 +1,46 @@
+name: support_ticket
+description: >
+  Customer Support Ticket Resolution Environment.
+  An AI agent manages a queue of support tickets: classifying, prioritising,
+  responding to, escalating, merging, and closing them efficiently.
+version: 1.0.0
+
+env_class: SupportTicketEnv
+entrypoint: server.app:app
+
+tasks:
+  - task_1_classify_prioritize
+  - task_2_full_lifecycle
+  - task_3_complex_triage
+
+action_space:
+  - classify_ticket
+  - assign_priority
+  - write_response
+  - escalate_ticket
+  - close_ticket
+  - reopen_ticket
+  - add_tag
+  - request_info
+  - merge_tickets
+  - noop
+
+observation_space:
+  - task_id
+  - episode_id
+  - step
+  - max_steps
+  - tickets
+  - action_history
+  - last_reward
+  - cumulative_reward
+  - done
+  - info
+
+reward:
+  type: dense
+  range: [-0.15, 0.20]
+
+docker:
+  dockerfile: server/Dockerfile
+  port: 8000
