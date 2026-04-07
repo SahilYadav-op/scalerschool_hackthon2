@@ -22,8 +22,10 @@ def _safe_get(ticket: dict[str, Any], key: str, default: Any = None) -> Any:
 # Grader for Task 1 – Classify and Prioritise
 # ---------------------------------------------------------------------------
 
-def grade_task_1(tickets: list[dict[str, Any]], expected: dict[str, Any],
-                 step: int, max_steps: int) -> float:
+
+def grade_task_1(
+    tickets: list[dict[str, Any]], expected: dict[str, Any], step: int, max_steps: int
+) -> float:
     """
     Scoring breakdown (total = 1.0):
       - Classification correctness : 0.40
@@ -55,7 +57,8 @@ def grade_task_1(tickets: list[dict[str, Any]], expected: dict[str, Any],
 
     # --- Coverage score (0.15) ---
     acted = sum(
-        1 for t in tickets
+        1
+        for t in tickets
         if _safe_get(t, "category") is not None or _safe_get(t, "priority") is not None
     )
     coverage_score = (acted / n_tickets) * 0.15 if n_tickets else 0.0
@@ -75,8 +78,10 @@ def grade_task_1(tickets: list[dict[str, Any]], expected: dict[str, Any],
 # Grader for Task 2 – Full Lifecycle
 # ---------------------------------------------------------------------------
 
-def grade_task_2(tickets: list[dict[str, Any]], expected: dict[str, Any],
-                 step: int, max_steps: int) -> float:
+
+def grade_task_2(
+    tickets: list[dict[str, Any]], expected: dict[str, Any], step: int, max_steps: int
+) -> float:
     """
     Scoring breakdown (total = 1.0):
       - Classification correctness : 0.20
@@ -95,7 +100,8 @@ def grade_task_2(tickets: list[dict[str, Any]], expected: dict[str, Any],
 
     # --- Classification (0.20) ---
     correct_class = sum(
-        1 for t in tickets
+        1
+        for t in tickets
         if _safe_get(t, "category") is not None
         and exp_class.get(_safe_get(t, "ticket_id")) == _safe_get(t, "category")
     )
@@ -103,7 +109,8 @@ def grade_task_2(tickets: list[dict[str, Any]], expected: dict[str, Any],
 
     # --- Priority (0.15) ---
     correct_prior = sum(
-        1 for t in tickets
+        1
+        for t in tickets
         if _safe_get(t, "priority") is not None
         and exp_prior.get(_safe_get(t, "ticket_id")) == _safe_get(t, "priority")
     )
@@ -111,27 +118,37 @@ def grade_task_2(tickets: list[dict[str, Any]], expected: dict[str, Any],
 
     # --- Responses (0.20) ---
     responded = sum(
-        1 for t in tickets
+        1
+        for t in tickets
         if _safe_get(t, "ticket_id") in must_respond and _safe_get(t, "has_response")
     )
     response_score = (responded / len(must_respond)) * 0.20 if must_respond else 0.0
 
     # --- Escalations (0.15) ---
     escalated_correct = sum(
-        1 for t in tickets
+        1
+        for t in tickets
         if _safe_get(t, "ticket_id") in must_escalate and _safe_get(t, "is_escalated")
     )
     # Penalise over-escalation
     over_escalated = sum(
-        1 for t in tickets
-        if _safe_get(t, "ticket_id") not in must_escalate and _safe_get(t, "is_escalated")
+        1
+        for t in tickets
+        if _safe_get(t, "ticket_id") not in must_escalate
+        and _safe_get(t, "is_escalated")
     )
-    esc_score = max(0.0, (escalated_correct - over_escalated * 0.5) / len(must_escalate)) * 0.15 if must_escalate else 0.0
+    esc_score = (
+        max(0.0, (escalated_correct - over_escalated * 0.5) / len(must_escalate)) * 0.15
+        if must_escalate
+        else 0.0
+    )
 
     # --- Closures (0.15) ---
     closed_correct = sum(
-        1 for t in tickets
-        if _safe_get(t, "ticket_id") in must_close and _safe_get(t, "status") == "closed"
+        1
+        for t in tickets
+        if _safe_get(t, "ticket_id") in must_close
+        and _safe_get(t, "status") == "closed"
     )
     close_score = (closed_correct / len(must_close)) * 0.15 if must_close else 0.0
 
@@ -140,7 +157,14 @@ def grade_task_2(tickets: list[dict[str, Any]], expected: dict[str, Any],
     efficiency_ratio = min(1.0, ideal / step) if step > 0 else 1.0
     efficiency_score = efficiency_ratio * 0.15
 
-    total = class_score + prior_score + response_score + esc_score + close_score + efficiency_score
+    total = (
+        class_score
+        + prior_score
+        + response_score
+        + esc_score
+        + close_score
+        + efficiency_score
+    )
     # Linearly transform the final sum to guarantee output is strictly in (0, 1)
     return round((total * 0.98) + 0.01, 4)
 
@@ -149,8 +173,14 @@ def grade_task_2(tickets: list[dict[str, Any]], expected: dict[str, Any],
 # Grader for Task 3 – Complex Triage with Merging
 # ---------------------------------------------------------------------------
 
-def grade_task_3(tickets: list[dict[str, Any]], expected: dict[str, Any],
-                 step: int, max_steps: int, action_history: list[dict[str, Any]]) -> float:
+
+def grade_task_3(
+    tickets: list[dict[str, Any]],
+    expected: dict[str, Any],
+    step: int,
+    max_steps: int,
+    action_history: list[dict[str, Any]],
+) -> float:
     """
     Scoring breakdown (total = 1.0):
       - Classification correctness : 0.15
@@ -170,7 +200,8 @@ def grade_task_3(tickets: list[dict[str, Any]], expected: dict[str, Any],
 
     # --- Classification (0.15) ---
     correct_class = sum(
-        1 for t in tickets
+        1
+        for t in tickets
         if _safe_get(t, "category") is not None
         and exp_class.get(_safe_get(t, "ticket_id")) == _safe_get(t, "category")
     )
@@ -178,7 +209,8 @@ def grade_task_3(tickets: list[dict[str, Any]], expected: dict[str, Any],
 
     # --- Priority (0.15) ---
     correct_prior = sum(
-        1 for t in tickets
+        1
+        for t in tickets
         if _safe_get(t, "priority") is not None
         and exp_prior.get(_safe_get(t, "ticket_id")) == _safe_get(t, "priority")
     )
@@ -193,37 +225,43 @@ def grade_task_3(tickets: list[dict[str, Any]], expected: dict[str, Any],
     # as long as the group eventually converges.
     correct_merges = 0
     total_needed_merges = 0
-    
+
     for group in merge_groups:
         if len(group) < 2:
             continue
-        total_needed_merges += (len(group) - 1)
+        total_needed_merges += len(group) - 1
         # Check how many secondary tickets in this group were merged into a target in this group
         merged_count = 0
         secondaries = set(group[1:])
         primary = group[0]
-        
+
         for a in merge_actions:
             tid = a.get("ticket_id")
             target = a.get("target_ticket_id")
             if tid in secondaries and target in group:
                 merged_count += 1
                 secondaries.remove(tid)  # Only count each secondary once
-        
+
         correct_merges += merged_count
 
-    merge_score = (correct_merges / total_needed_merges) * 0.20 if total_needed_merges else 0.0
+    merge_score = (
+        (correct_merges / total_needed_merges) * 0.20 if total_needed_merges else 0.0
+    )
 
     # --- Escalations (0.15) ---
     escalated_correct = sum(
-        1 for t in tickets
+        1
+        for t in tickets
         if _safe_get(t, "ticket_id") in must_escalate and _safe_get(t, "is_escalated")
     )
-    esc_score = (escalated_correct / len(must_escalate)) * 0.15 if must_escalate else 0.0
+    esc_score = (
+        (escalated_correct / len(must_escalate)) * 0.15 if must_escalate else 0.0
+    )
 
     # --- Responses (0.15) ---
     responded = sum(
-        1 for t in tickets
+        1
+        for t in tickets
         if _safe_get(t, "ticket_id") in must_respond and _safe_get(t, "has_response")
     )
     response_score = (responded / len(must_respond)) * 0.15 if must_respond else 0.0
@@ -239,7 +277,15 @@ def grade_task_3(tickets: list[dict[str, Any]], expected: dict[str, Any],
     redundant_penalty = min(0.10, noop_count * 0.02)
     redundancy_score = 0.10 - redundant_penalty
 
-    total = class_score + prior_score + merge_score + esc_score + response_score + efficiency_score + redundancy_score
+    total = (
+        class_score
+        + prior_score
+        + merge_score
+        + esc_score
+        + response_score
+        + efficiency_score
+        + redundancy_score
+    )
     # Linearly transform the final sum to guarantee output is strictly in (0, 1)
     return round((total * 0.98) + 0.01, 4)
 
@@ -255,8 +301,14 @@ GRADERS: dict[str, Callable[..., float]] = {
 }
 
 
-def grade(task_id: str, tickets: list[dict[str, Any]], expected: dict[str, Any],
-          step: int, max_steps: int, action_history: list[dict[str, Any]] | None = None) -> float:
+def grade(
+    task_id: str,
+    tickets: list[dict[str, Any]],
+    expected: dict[str, Any],
+    step: int,
+    max_steps: int,
+    action_history: list[dict[str, Any]] | None = None,
+) -> float:
     """Dispatch to the correct grader and return a score strictly in (0.0, 1.0)."""
     grader = GRADERS.get(task_id)
     if grader is None:
@@ -266,5 +318,6 @@ def grade(task_id: str, tickets: list[dict[str, Any]], expected: dict[str, Any],
         score = grader(tickets, expected, step, max_steps, action_history or [])
     else:
         score = grader(tickets, expected, step, max_steps)
-        
-    return score
+
+    score = max(0.001, min(0.999, score))
+    return round(score, 4)
